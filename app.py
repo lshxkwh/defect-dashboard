@@ -429,8 +429,10 @@ with tab0:
         with trend_placeholder.container():
             if len(st.session_state.sim_log) >= 2:
                 st.write("**최근 조기탐지 위험도 추세** (관리도 스타일 — 값이 갑자기 튀거나 패턴이 바뀌면 주의)")
-                trend_df = pd.DataFrame(st.session_state.sim_log[:30]).iloc[::-1]
-                chart_data = trend_df.set_index("cycle_order")[["조기탐지_확률"]].rename(
+                st.caption("x축은 사이클 번호가 아니라 '몇 번째로 처리됐는지(처리 순번)' 기준입니다. (무작위 재생 시에도 시간 흐름이 올바르게 표시됩니다)")
+                trend_df = pd.DataFrame(st.session_state.sim_log[:30]).iloc[::-1].reset_index(drop=True)
+                trend_df["처리순번"] = range(1, len(trend_df) + 1)
+                chart_data = trend_df.set_index("처리순번")[["조기탐지_확률"]].rename(
                     columns={"조기탐지_확률": "조기탐지 위험도"}
                 )
                 st.line_chart(chart_data)
