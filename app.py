@@ -116,6 +116,9 @@ def build_pipeline():
     fold_map = {1: 0, 6: 0, 2: 1, 7: 1, 3: 2, 8: 2, 4: 3, 9: 3, 5: 4, 10: 4}
     df["fold_primary"] = df["time_block_id"].map(fold_map)
 
+    # ---- 예외 사이클 플래그 (cycle 10: 이미지 확인 전까지 재검증 필요) ----
+    df["needs_image_review"] = (df["cycle_order"] == 10).astype(int)
+
     # ---- 배포용 모델 학습 (전체 데이터) ----
     early_model = RandomForestClassifier(
         n_estimators=300, max_depth=6, random_state=42, class_weight="balanced"
