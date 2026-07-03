@@ -11,6 +11,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import time
 from collections import defaultdict
 from sklearn.ensemble import RandomForestClassifier
 import lightgbm as lgb
@@ -179,7 +180,102 @@ with st.expander("⚠️ 사용 전 반드시 읽어주세요 (모델 한계 안
 pipeline = build_pipeline()
 df = pipeline["df"]
 
-tab1, tab2, tab3 = st.tabs(["📋 기존 사이클 조회 (데모)", "📤 새 데이터 업로드", "📊 모델 성능 리포트"])
+tab0, tab1, tab2, tab3 = st.tabs(["🔴 실시간 시뮬레이션", "📋 기존 사이클 조회 (데모)", "📤 새 데이터 업로드", "📊 모델 성능 리포트"])
+
+# ------------------------------------------------------------
+# 탭 0: 실시간 시뮬레이션 (사이클 순서대로 하나씩 흘려보내기)
+# ------------------------------------------------------------
+with tab0:
+    st.subheader("실시간 라인 시뮬레이션")
+    st.caption("실제 공장 설비와 연동된 것이 아니라, 기존 데이터를 사이클 순서대로 재생하여 실시간처럼 보여주는 시뮬레이션입니다.")
+
+    sorted_df = df.sort_values("cycle_order").reset_index(drop=True)
+
+    if "sim_index" not in st.session_state:
+        st.session_state.sim_index = 0
+    if "sim_running" not in st.session_state:
+        st.session_state.sim_running = False
+    if "sim_log" not in st.session_state:
+        st.session_state.sim_log = []
+    if "sim_stats" not in st.session_state:
+        st.session_state.sim_stats = {"total": 0, "normal": 0, "early_alert": 0, "posthoc_defect": 0}
+
+    ctrl1, ctrl2, ctrl3, ctrl4 = st.columns([1, 1, 1, 2])
+    with ctrl1:
+        if st.button("▶ 시작", use_container_width=True):
+            st.session_state.sim_running = True
+    with ctrl2:
+        if st.button("⏸ 정지", use_container_width=True):
+            st.session_state.sim_running = False
+    with ctrl3:
+        if st.button("⏮ 초기화", use_container_width=True):
+            st.session_state.sim_index = 0
+            st.session_state.sim_running = False
+            st.session_state.sim_log = []
+            st.session_state.sim_stats = {"total": 0, "normal": 0, "early_alert": 0, "posthoc_defect": 0}
+    with ctrl4:
+        speed = st.slider("사이클당 진행 속도(초)", 0.5, 5.0, 1.5, 0.5)
+
+    status_placeholder = st.empty()
+    metric_placeholder = st.empty()
+    log_placeholder = st.empty()
+
+    def render_current_state():
+        stats = st.session_state.sim_stats
+        with status_placeholder.container():
+            if not st.session_state.sim_log:
+                st.info("▶ 시작 버튼을 눌러 시뮬레이션을 시작하세요.")
+            else:
+                last = st.session_state.sim_log[0]
+                if last["최종판정"] == "불량":
+                    st.error(f"🚨 사이클 {last['cycle_order']} — 최종판정: 불량 (확률 {last['최종판정_확률']:.1%})")
+                elif last["조기경보"] == "이상 의심":
+                    st.warning(f"⚠️ 사이클 {last['cycle_order']} — 조기 경보 발생 (확률 {last['조기탐지_확률']:.1%}), 최종판정 대기/정상")
+                else:
+                    st.success(f"✅ 사이클 {last['cycle_order']} — 정상 가동 중")
+
+        with metric_placeholder.container():
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("누적 처리", stats["total"])
+            c2.metric("정상", stats["normal"])
+            c3.metric("조기 경보 발생", stats["early_alert"])
+            c4.metric("최종 불량 확정", stats["posthoc_defect"])
+
+        with log_placeholder.container():
+            st.write("**최근 판정 로그** (최신순)")
+            if st.session_state.sim_log:
+                log_df = pd.DataFrame(st.session_state.sim_log[:15])
+                st.dataframe(log_df, use_container_width=True, hide_index=True)
+
+    render_current_state()
+
+    if st.session_state.sim_running and st.session_state.sim_index < len(sorted_df):
+        row = sorted_df.iloc[st.session_state.sim_index]
+        result = classify_cycle(row, pipeline)
+
+        entry = {
+            "cycle_order": row["cycle_order"],
+            "조기탐지_확률": result["early_proba"],
+            "조기경보": "이상 의심" if result["early_alert"] else "정상으로 보임",
+            "최종판정_확률": result.get("posthoc_proba", np.nan),
+            "최종판정": result.get("posthoc_verdict", "N/A"),
+        }
+        st.session_state.sim_log.insert(0, entry)
+        st.session_state.sim_stats["total"] += 1
+        if result["early_alert"]:
+            st.session_state.sim_stats["early_alert"] += 1
+        if result.get("posthoc_verdict") == "불량":
+            st.session_state.sim_stats["posthoc_defect"] += 1
+        else:
+            st.session_state.sim_stats["normal"] += 1
+
+        st.session_state.sim_index += 1
+        time.sleep(speed)
+        st.rerun()
+    elif st.session_state.sim_running and st.session_state.sim_index >= len(sorted_df):
+        st.session_state.sim_running = False
+        st.success("전체 사이클 재생이 끝났습니다. 초기화 후 다시 시작할 수 있습니다.")
+
 
 # ------------------------------------------------------------
 # 탭 1: 데모 - 기존 데이터셋에서 사이클 선택
