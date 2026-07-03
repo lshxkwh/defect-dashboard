@@ -126,6 +126,13 @@ def build_pipeline():
     )
     early_model.fit(df[early_features], y)
 
+    # 조기탐지 단계에서 "어떤 부품이 의심되는지" 참고용 4클래스 모델
+    # 주의: NoNose(부품 1개 누락) 유형은 조기탐지 신호로 구분 불가능함이 검증에서 확인됨 (신뢰도 낮음)
+    early_type_model = RandomForestClassifier(
+        n_estimators=300, max_depth=6, random_state=42, class_weight="balanced"
+    )
+    early_type_model.fit(df[early_features], df["target_4class"])
+
     posthoc_model = lgb.LGBMClassifier(
         n_estimators=200, max_depth=4, learning_rate=0.05, random_state=42, verbose=-1
     )
@@ -134,6 +141,7 @@ def build_pipeline():
     return {
         "df": df,
         "early_model": early_model,
+        "early_type_model": early_type_model,
         "early_features": early_features,
         "posthoc_model": posthoc_model,
         "posthoc_features": posthoc_features,
@@ -146,6 +154,16 @@ def classify_cycle(row, pipeline):
     early_proba = pipeline["early_model"].predict_proba(early_X)[0, 1]
 
     result = {"early_proba": early_proba, "early_alert": early_proba >= 0.5}
+
+    # 조기 경보 시, 어떤 부품 유형이 의심되는지 참고 정보 추가
+    if result["early_alert"]:
+        type_model = pipeline["early_type_model"]
+        type_proba = type_model.predict_proba(early_X)[0]
+        type_classes = type_model.classes_
+        top_idx = np.argsort(type_proba)[::-1]
+        result["suspected_type"] = type_classes[top_idx[0]]
+        result["suspected_type_proba"] = type_proba[top_idx[0]]
+        result["suspected_type_low_confidence"] = (type_classes[top_idx[0]] == "NoNose")
 
     # 사후검사는 R04 등 후단 신호가 있어야 하므로, 해당 컬럼이 다 채워져 있을 때만 계산
     posthoc_cols = pipeline["posthoc_features"]
@@ -199,6 +217,10 @@ with tab0:
         st.session_state.sim_log = []
     if "sim_stats" not in st.session_state:
         st.session_state.sim_stats = {"total": 0, "normal": 0, "early_alert": 0, "posthoc_defect": 0}
+    if "sim_seed" not in st.session_state:
+        st.session_state.sim_seed = 0
+    if "sim_order" not in st.session_state:
+        st.session_state.sim_order = "원본 순서 (시간순)"
 
     ctrl1, ctrl2, ctrl3, ctrl4 = st.columns([1, 1, 1, 2])
     with ctrl1:
@@ -213,8 +235,29 @@ with tab0:
             st.session_state.sim_running = False
             st.session_state.sim_log = []
             st.session_state.sim_stats = {"total": 0, "normal": 0, "early_alert": 0, "posthoc_defect": 0}
+            st.session_state.sim_seed += 1  # 초기화할 때마다 새로 섞이도록
     with ctrl4:
-        speed = st.slider("사이클당 진행 속도(초)", 0.5, 5.0, 1.5, 0.5)
+        speed_level = st.slider("재생 속도 (높을수록 빠름)", 1, 10, 4)
+        speed = 3.0 / speed_level  # level 1 -> 3.0초 대기(느림), level 10 -> 0.3초 대기(빠름)
+
+    order_col1, order_col2 = st.columns([2, 3])
+    with order_col1:
+        st.session_state.sim_order = st.radio(
+            "재생 순서",
+            ["원본 순서 (시간순)", "무작위로 섞기"],
+            horizontal=True,
+            index=0 if st.session_state.sim_order == "원본 순서 (시간순)" else 1,
+        )
+    with order_col2:
+        if st.session_state.sim_order == "무작위로 섞기":
+            st.caption("정상/불량이 실제 현장처럼 뒤섞인 순서로 재생됩니다 (초기화 시 다시 섞임).")
+        else:
+            st.caption("실험 데이터 수집 순서 그대로 재생합니다 (불량 유형별로 뭉쳐 나올 수 있음).")
+
+    if st.session_state.sim_order == "무작위로 섞기":
+        play_df = sorted_df.sample(frac=1, random_state=st.session_state.sim_seed).reset_index(drop=True)
+    else:
+        play_df = sorted_df
 
     status_placeholder = st.empty()
     metric_placeholder = st.empty()
@@ -228,9 +271,14 @@ with tab0:
             else:
                 last = st.session_state.sim_log[0]
                 if last["최종판정"] == "불량":
-                    st.error(f"🚨 사이클 {last['cycle_order']} — 최종판정: 불량 (확률 {last['최종판정_확률']:.1%})")
+                    st.error(f"🚨 사이클 {last['cycle_order']} — 최종판정: 불량")
                 elif last["조기경보"] == "이상 의심":
-                    st.warning(f"⚠️ 사이클 {last['cycle_order']} — 조기 경보 발생 (확률 {last['조기탐지_확률']:.1%}), 최종판정 대기/정상")
+                    msg = f"⚠️ 사이클 {last['cycle_order']} — 조기 경보 발생"
+                    if last.get("의심유형") and last["의심유형"] != "-":
+                        msg += f" · 의심 유형: **{last['의심유형']}**"
+                    st.warning(msg)
+                    if last.get("의심유형_저신뢰"):
+                        st.caption("⚠️ '부품 1개 누락' 유형은 조기탐지 신호로 구분이 검증되지 않아, 이 추정의 신뢰도가 낮습니다. 최종판정을 반드시 확인하세요.")
                 else:
                     st.success(f"✅ 사이클 {last['cycle_order']} — 정상 가동 중")
 
@@ -242,21 +290,41 @@ with tab0:
             c4.metric("최종 불량 확정", stats["posthoc_defect"])
 
         with log_placeholder.container():
-            st.write("**최근 판정 로그** (최신순)")
+            st.write("**최근 판정 로그** (최신순 · 행을 클릭하면 실제 라벨을 확인할 수 있습니다)")
             if st.session_state.sim_log:
                 log_df = pd.DataFrame(st.session_state.sim_log[:15])
-                st.dataframe(log_df, use_container_width=True, hide_index=True)
+                display_cols = ["cycle_order", "조기경보", "의심유형", "최종판정"]
+                event = st.dataframe(
+                    log_df[display_cols],
+                    use_container_width=True,
+                    hide_index=True,
+                    on_select="rerun",
+                    selection_mode="single-row",
+                    key="sim_log_table",
+                )
+                if event.selection.rows:
+                    picked = log_df.iloc[event.selection.rows[0]]
+                    st.info(
+                        f"🔎 사이클 {picked['cycle_order']} 실제 라벨: **{picked['실제라벨']}** "
+                        f"(예측 — 조기탐지: {picked['조기경보']}"
+                        + (f" / 의심유형: {picked['의심유형']}" if picked["의심유형"] != "-" else "")
+                        + f" · 최종판정: {picked['최종판정']})"
+                    )
 
     render_current_state()
 
-    if st.session_state.sim_running and st.session_state.sim_index < len(sorted_df):
-        row = sorted_df.iloc[st.session_state.sim_index]
+    if st.session_state.sim_running and st.session_state.sim_index < len(play_df):
+        row = play_df.iloc[st.session_state.sim_index]
         result = classify_cycle(row, pipeline)
 
         entry = {
             "cycle_order": row["cycle_order"],
+            "실제라벨": row["target_4class"],
             "조기탐지_확률": result["early_proba"],
             "조기경보": "이상 의심" if result["early_alert"] else "정상으로 보임",
+            "의심유형": result.get("suspected_type", "-"),
+            "의심유형_확률": result.get("suspected_type_proba", np.nan),
+            "의심유형_저신뢰": result.get("suspected_type_low_confidence", False),
             "최종판정_확률": result.get("posthoc_proba", np.nan),
             "최종판정": result.get("posthoc_verdict", "N/A"),
         }
@@ -272,7 +340,7 @@ with tab0:
         st.session_state.sim_index += 1
         time.sleep(speed)
         st.rerun()
-    elif st.session_state.sim_running and st.session_state.sim_index >= len(sorted_df):
+    elif st.session_state.sim_running and st.session_state.sim_index >= len(play_df):
         st.session_state.sim_running = False
         st.success("전체 사이클 재생이 끝났습니다. 초기화 후 다시 시작할 수 있습니다.")
 
@@ -295,16 +363,21 @@ with tab1:
         st.metric("실제 라벨 (참고용)", actual_label)
     with col2:
         alert_text = "🚨 이상 의심" if result["early_alert"] else "✅ 정상으로 보임"
-        st.metric("조기탐지 결과 (R03 시점)", alert_text, f"확률 {result['early_proba']:.1%}")
+        st.metric("조기탐지 결과 (R03 시점)", alert_text)
     with col3:
         if result["posthoc_available"]:
             verdict_icon = "🚨 불량" if result["posthoc_verdict"] == "불량" else "✅ 정상"
-            st.metric("최종판정 결과 (R04 시점)", verdict_icon, f"확률 {result['posthoc_proba']:.1%}")
+            st.metric("최종판정 결과 (R04 시점)", verdict_icon)
         else:
             st.metric("최종판정 결과", "데이터 없음")
 
     if result["early_alert"] != (result.get("posthoc_verdict") == "불량"):
         st.info("ℹ️ 조기탐지와 최종판정 결과가 다릅니다 — 최종판정을 기준으로 출하 여부를 결정하세요.")
+
+    if result["early_alert"] and result.get("suspected_type"):
+        st.write(f"🔍 조기탐지 단계 의심 부품 유형: **{result['suspected_type']}**")
+        if result.get("suspected_type_low_confidence"):
+            st.caption("⚠️ '부품 1개 누락(NoNose)' 유형은 조기탐지 신호로 구분이 검증되지 않아 신뢰도가 낮습니다.")
 
     if row["needs_image_review"] == 1:
         st.error("🖼️ 이 사이클은 이미지 데이터 확보 후 재검증이 필요한 것으로 표시되어 있습니다 (cycle 10).")
@@ -324,17 +397,21 @@ with tab2:
             st.error(f"필요한 컬럼이 없습니다: {missing_early[:5]} 등 {len(missing_early)}개")
         else:
             results = []
+            has_actual_label = "target_4class" in new_df.columns
             for _, r in new_df.iterrows():
                 res = classify_cycle(r, pipeline)
-                results.append({
+                row_result = {
                     "cycle_order": r.get("cycle_order", "-"),
-                    "조기탐지_확률": round(res["early_proba"], 4),
                     "조기탐지_경보": "이상 의심" if res["early_alert"] else "정상으로 보임",
-                    "최종판정_확률": round(res.get("posthoc_proba", np.nan), 4) if res["posthoc_available"] else "N/A",
+                    "의심유형": res.get("suspected_type", "-"),
                     "최종판정_결과": res.get("posthoc_verdict", "N/A"),
-                })
+                }
+                if has_actual_label:
+                    row_result["실제라벨"] = r["target_4class"]
+                results.append(row_result)
             result_df = pd.DataFrame(results)
             st.dataframe(result_df, use_container_width=True)
+            st.caption("⚠️ '의심유형'이 NoNose(부품 1개 누락)로 나온 경우, 조기탐지 신호로는 검증되지 않은 추정치이므로 최종판정을 반드시 확인하세요.")
             st.download_button(
                 "결과 CSV 다운로드",
                 result_df.to_csv(index=False).encode("utf-8-sig"),
