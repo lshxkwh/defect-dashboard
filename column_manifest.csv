@@ -1,0 +1,533 @@
+column,group,use_as_early_detection_feature,allowed_roles,reason,source
+cycle_run_id,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+cycle_order,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+start_time,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,added
+end_time,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,added
+start_time_unix,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,added
+target_4class,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+missing_count,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+final_part_count,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+label_block_id,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+time_block_id,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+duration_sec,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+n_rows,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+normal_label_source,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+normal_needs_validation,meta,-,규칙에 따라 사용,ID/라벨/시간/블록,original
+I_SafetyDoor1_Status__ntrans,event_added,yes,조기탐지 입력 피처로 사용 가능,v2 추가 시간·이벤트 요약,added
+I_SafetyDoor1_Status__false_ratio,event_added,yes,조기탐지 입력 피처로 사용 가능,v2 추가 시간·이벤트 요약,added
+I_SafetyDoor2_Status__ntrans,event_added,yes,조기탐지 입력 피처로 사용 가능,v2 추가 시간·이벤트 요약,added
+I_SafetyDoor2_Status__false_ratio,event_added,yes,조기탐지 입력 피처로 사용 가능,v2 추가 시간·이벤트 요약,added
+I_MHS_GreenRocketTray__ntrans,event_added,yes,조기탐지 입력 피처로 사용 가능,v2 추가 시간·이벤트 요약,added
+I_MHS_GreenRocketTray__detect_ratio,event_added,yes,조기탐지 입력 피처로 사용 가능,v2 추가 시간·이벤트 요약,added
+Q_VFD2_Temperature__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD2_Temperature__imputed_ratio,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD3_Temperature__imputed_ratio,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+Q_VFD4_Temperature__imputed_ratio,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),added
+I_R01_Gripper_Load__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_BJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_LJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_RJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_SJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_TJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R01_UJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_BJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_LJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_RJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_SJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_TJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R02_UJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_BJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_BJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_BJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_BJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_BJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_BJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_LJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_RJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_SJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_SJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_SJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_SJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_SJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_SJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_TJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+M_R03_UJointAngle_Degree__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__min,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__median,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__range,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__last,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__last_minus_first,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__diff_mean,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__diff_std,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__diff_abs_sum,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+Q_VFD1_Temperature__diff_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__abs_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__peak_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__large_change_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Load__transition_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__abs_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__peak_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__large_change_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R01_Gripper_Pot__transition_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__abs_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__peak_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__large_change_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Load__transition_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__abs_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__peak_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__large_change_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R02_Gripper_Pot__transition_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__abs_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__large_change_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Load__transition_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__abs_max,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__large_change_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R03_Gripper_Pot__transition_count,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+tray_detected_ratio,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+vfd_any_imputed_ratio,feature_safe,yes,조기탐지 입력 피처로 사용,누수 위험 없는 센서 요약(VFD1~4 포함),original
+I_R04_Gripper_Load__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__min,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__median,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__range,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__last,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__last_minus_first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__min,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__median,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__range,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__last,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__last_minus_first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_BJointAngle_Degree__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_BJointAngle_Degree__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_BJointAngle_Degree__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_BJointAngle_Degree__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_BJointAngle_Degree__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_BJointAngle_Degree__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__median,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__last_minus_first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_LJointAngle_Degree__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__range,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_RJointAngle_Degree__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_SJointAngle_Degree__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_SJointAngle_Degree__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_SJointAngle_Degree__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_SJointAngle_Degree__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_SJointAngle_Degree__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_SJointAngle_Degree__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__median,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__last_minus_first,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_TJointAngle_Degree__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__min,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__range,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__diff_mean,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__diff_std,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__diff_abs_sum,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+M_R04_UJointAngle_Degree__diff_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R03_Gripper_Load__peak_count,outcome_signal_R03peak,no,EDA(핵심 신호) / 라벨 정의·검증 / 타깃 (조기탐지 입력 피처 금지),R03 조립 peak가 누락 부품 수와 거의 일치 → 라벨 근사치(순환),original
+I_R03_Gripper_Pot__peak_count,outcome_signal_R03peak,no,EDA(핵심 신호) / 라벨 정의·검증 / 타깃 (조기탐지 입력 피처 금지),R03 조립 peak가 누락 부품 수와 거의 일치 → 라벨 근사치(순환),original
+I_R04_Gripper_Load__abs_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__peak_count,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__large_change_count,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Load__transition_count,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__abs_max,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__peak_count,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__large_change_count,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+I_R04_Gripper_Pot__transition_count,outcome_signal_R04,no,EDA / 타깃·정답 검증 / 사후확인 모델 (조기탐지 입력 피처 금지),분해(R04)는 품질 확정 후 동작 → 시간 누수. 실제 라인 존재 여부 멘토 확인 대기,original
+has_estop,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+has_unknown_label,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_BJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_BJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_BJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_BJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_BJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_LJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_LJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_LJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_LJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_LJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_RJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_RJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_SJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_SJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_SJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_SJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_SJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_TJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_TJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_TJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_TJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_TJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_UJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_UJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_UJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_UJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R01_UJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_BJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_BJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_BJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_LJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_LJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_LJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_RJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_RJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_RJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_RJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_RJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_SJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_SJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_SJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_SJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_SJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_TJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_TJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_TJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_UJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_UJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_UJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_UJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R02_UJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_BJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_LJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_LJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_LJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_LJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_LJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_RJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_RJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_RJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_SJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_TJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_TJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_TJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_TJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_TJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_UJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_UJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_UJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_UJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R03_UJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_BJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_LJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_LJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_LJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_LJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_RJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_RJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_RJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_RJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_RJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_SJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_TJointAngle_Degree__min,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_TJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_TJointAngle_Degree__range,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_TJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_UJointAngle_Degree__max,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_UJointAngle_Degree__median,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_UJointAngle_Degree__first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_UJointAngle_Degree__last,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+M_R04_UJointAngle_Degree__last_minus_first,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+I_Stopper1_Status__ntrans,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+I_Stopper2_Status__ntrans,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+I_Stopper3_Status__ntrans,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+I_Stopper4_Status__ntrans,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
+I_Stopper5_Status__ntrans,dropped_constant,no,제거됨(정보량 0),전 사이클 동일값,original
