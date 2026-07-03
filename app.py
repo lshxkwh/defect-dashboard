@@ -12,6 +12,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import time
+import os
+from datetime import datetime
 from collections import defaultdict
 from sklearn.ensemble import RandomForestClassifier
 import lightgbm as lgb
@@ -20,6 +22,7 @@ st.set_page_config(page_title="조립라인 품질 이상탐지 대시보드", l
 
 DATA_PATH = "assembly_eda_cycle_summary_v2.csv"
 MANIFEST_PATH = "column_manifest.csv"
+PERSIST_LOG_PATH = "judgment_history.csv"
 
 
 # ============================================================
@@ -138,6 +141,29 @@ def build_pipeline():
     )
     posthoc_model.fit(df[posthoc_features], y)
 
+    # ---- 5. 판정 근거 설명용: 정상군 평균/표준편차 (조기탐지 피처 기준) ----
+    normal_df = df[df["target_4class"] == "Normal"]
+    normal_stats = {
+        c: (normal_df[c].mean(), normal_df[c].std() + 1e-9) for c in early_features
+    }
+
+    # ---- 4. 센서 값 이상 자체 감지용: 학습 데이터 관측 범위 + 50% 여유 마진 ----
+    # (IQR 기반은 이 데이터의 다봉분포 특성상 정상적인 클래스 차이까지 오탐하므로 사용하지 않음)
+    sensor_range = {}
+    for c in early_features:
+        lo, hi = df[c].min(), df[c].max()
+        margin = (hi - lo) * 0.5 if hi > lo else abs(lo) * 0.5 + 1
+        sensor_range[c] = (lo - margin, hi + margin)
+
+    # ---- 5. 모델 정보/이력 ----
+    model_info = {
+        "build_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "n_train_samples": len(df),
+        "n_early_features": len(early_features),
+        "n_posthoc_features": len(posthoc_features),
+        "data_source": DATA_PATH,
+    }
+
     return {
         "df": df,
         "early_model": early_model,
@@ -145,15 +171,54 @@ def build_pipeline():
         "early_features": early_features,
         "posthoc_model": posthoc_model,
         "posthoc_features": posthoc_features,
+        "normal_stats": normal_stats,
+        "sensor_range": sensor_range,
+        "model_info": model_info,
     }
+
+
+def check_sensor_sanity(row, pipeline, max_anomalous=0):
+    """모델 판정 전에, 입력값 자체가 학습 데이터에서 한 번도 관측되지 않은 극단적 범위(관측범위+50% 마진 밖)인지 확인.
+    이 기준은 정상적인 클래스 간 값 차이는 포함하도록 넉넉하게 잡혀 있어, 실제 센서 고장·계산 오류만 잡아내는 것을 목표로 한다."""
+    anomalous = []
+    for c, (lo, hi) in pipeline["sensor_range"].items():
+        v = row[c]
+        if pd.isna(v) or v < lo or v > hi:
+            anomalous.append(c)
+    return {"is_anomalous": len(anomalous) > max_anomalous, "anomalous_features": anomalous}
+
+
+def get_top_reasons(row, pipeline, n=3):
+    """정상군 평균 대비 편차가 큰 피처 상위 n개를 판정 근거로 반환"""
+    scores = []
+    for c, (mean, std) in pipeline["normal_stats"].items():
+        v = row[c]
+        if pd.isna(v):
+            continue
+        z = (v - mean) / std
+        scores.append((c, z))
+    scores.sort(key=lambda x: abs(x[1]), reverse=True)
+    reasons = []
+    for c, z in scores[:n]:
+        direction = "높음" if z > 0 else "낮음"
+        reasons.append(f"`{c}` 값이 정상 평균 대비 {direction} (표준편차 {abs(z):.1f}배 이탈)")
+    return reasons
 
 
 def classify_cycle(row, pipeline, early_threshold=0.5, posthoc_threshold=0.5):
     """한 사이클(행)을 조기탐지 + 사후검사 두 모델로 판정"""
+    sanity = check_sensor_sanity(row, pipeline)
+
     early_X = pd.DataFrame([row[pipeline["early_features"]].astype(float)])
     early_proba = pipeline["early_model"].predict_proba(early_X)[0, 1]
 
-    result = {"early_proba": early_proba, "early_alert": early_proba >= early_threshold}
+    result = {
+        "early_proba": early_proba,
+        "early_alert": early_proba >= early_threshold,
+        "sensor_anomalous": sanity["is_anomalous"],
+        "sensor_anomalous_features": sanity["anomalous_features"],
+        "reasons": get_top_reasons(row, pipeline, n=3),
+    }
 
     # 조기 경보 시, 어떤 부품 유형이 의심되는지 참고 정보 추가
     if result["early_alert"]:
@@ -197,6 +262,22 @@ def judge_risk_tier(actual_label, early_alert, posthoc_verdict, posthoc_availabl
         return "⚪ 정상 탐지", "ok"
 
 
+def append_log_to_disk(entry):
+    """판정 기록을 로컬 CSV에 이어붙여 저장 (세션이 끝나도 파일로 남김).
+    주의: Streamlit Community Cloud는 재배포 시 파일시스템이 초기화되므로,
+    완전한 영구 저장을 위해서는 별도 데이터베이스 연동이 필요합니다."""
+    row = {k: v for k, v in entry.items() if not isinstance(v, list)}
+    row["기록시각"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_exists = os.path.exists(PERSIST_LOG_PATH)
+    pd.DataFrame([row]).to_csv(PERSIST_LOG_PATH, mode="a", header=not file_exists, index=False, encoding="utf-8-sig")
+
+
+def load_persisted_log():
+    if os.path.exists(PERSIST_LOG_PATH):
+        return pd.read_csv(PERSIST_LOG_PATH)
+    return pd.DataFrame()
+
+
 # ============================================================
 # UI
 # ============================================================
@@ -230,6 +311,14 @@ with st.sidebar:
     st.divider()
     st.caption("현재 설정은 이 브라우저 세션에서만 유지됩니다.")
 
+    st.divider()
+    st.subheader("📌 모델 정보")
+    info = pipeline["model_info"]
+    st.caption(f"학습 시각: {info['build_time']}")
+    st.caption(f"학습 표본 수: {info['n_train_samples']}개")
+    st.caption(f"조기탐지 피처: {info['n_early_features']}개 · 최종판정 피처: {info['n_posthoc_features']}개")
+    st.caption(f"데이터 출처: {info['data_source']}")
+
 tab0, tab1, tab2, tab3 = st.tabs(["🔴 실시간 시뮬레이션", "📋 기존 사이클 조회 (데모)", "📤 새 데이터 업로드", "📊 모델 성능 리포트"])
 
 # ------------------------------------------------------------
@@ -248,7 +337,7 @@ with tab0:
     if "sim_log" not in st.session_state:
         st.session_state.sim_log = []
     if "sim_stats" not in st.session_state:
-        st.session_state.sim_stats = {"total": 0, "correct": 0, "critical_miss": 0, "blind_spot": 0, "false_alarm": 0}
+        st.session_state.sim_stats = {"total": 0, "correct": 0, "critical_miss": 0, "blind_spot": 0, "false_alarm": 0, "sensor_flag": 0}
     if "sim_seed" not in st.session_state:
         st.session_state.sim_seed = 0
     if "sim_order" not in st.session_state:
@@ -266,7 +355,7 @@ with tab0:
             st.session_state.sim_index = 0
             st.session_state.sim_running = False
             st.session_state.sim_log = []
-            st.session_state.sim_stats = {"total": 0, "correct": 0, "critical_miss": 0, "blind_spot": 0, "false_alarm": 0}
+            st.session_state.sim_stats = {"total": 0, "correct": 0, "critical_miss": 0, "blind_spot": 0, "false_alarm": 0, "sensor_flag": 0}
             st.session_state.sim_seed += 1  # 초기화할 때마다 새로 섞이도록
     with ctrl4:
         speed_level = st.slider("재생 속도 (높을수록 빠름)", 1, 10, 4)
@@ -293,6 +382,7 @@ with tab0:
 
     status_placeholder = st.empty()
     metric_placeholder = st.empty()
+    trend_placeholder = st.empty()
     log_placeholder = st.empty()
 
     def render_current_state():
@@ -302,7 +392,9 @@ with tab0:
                 st.info("▶ 시작 버튼을 눌러 시뮬레이션을 시작하세요.")
             else:
                 last = st.session_state.sim_log[0]
-                if last.get("위험도등급") == "danger":
+                if last.get("센서이상"):
+                    st.error(f"🛠️ 사이클 {last['cycle_order']} — 센서 값 자체가 학습 범위를 크게 벗어났습니다. 판정 신뢰 불가, 설비 점검 필요")
+                elif last.get("위험도등급") == "danger":
                     st.error(f"🔴 사이클 {last['cycle_order']} — 치명적 놓침! 불량인데 정상으로 최종판정됨. 즉시 확인 필요")
                 elif last.get("최종판정") == "불량":
                     st.error(f"🚨 사이클 {last['cycle_order']} — 최종판정: 불량")
@@ -318,15 +410,30 @@ with tab0:
                 else:
                     st.success(f"✅ 사이클 {last['cycle_order']} — 정상 가동 중")
 
+                if last.get("판정근거"):
+                    with st.expander(f"🔍 사이클 {last['cycle_order']} 판정 근거 보기"):
+                        for reason in last["판정근거"]:
+                            st.write(f"- {reason}")
+
         with metric_placeholder.container():
-            c1, c2, c3, c4, c5 = st.columns(5)
+            c1, c2, c3, c4, c5, c6 = st.columns(6)
             c1.metric("누적 처리", stats["total"])
             c2.metric("정상 탐지", stats["correct"])
             c3.metric("🔴 치명적 놓침", stats["critical_miss"], help="불량인데 최종판정까지 정상으로 통과된 건수 — 반드시 0이어야 합니다.")
             c4.metric("🟠 조기탐지 사각지대", stats["blind_spot"], help="조기탐지는 놓쳤지만 최종판정에서 잡아낸 건수")
             c5.metric("🟡 오탐(False Alarm)", stats["false_alarm"], help="정상인데 경보/불량으로 잘못 판정된 건수")
+            c6.metric("🛠️ 센서 이상 의심", stats["sensor_flag"], help="입력값 자체가 학습 범위를 심하게 벗어난 건수")
             if stats["critical_miss"] > 0:
                 st.error(f"⚠️ 이번 세션에서 {stats['critical_miss']}건의 불량이 시스템을 그대로 통과했습니다. 즉시 원인 점검이 필요합니다.")
+
+        with trend_placeholder.container():
+            if len(st.session_state.sim_log) >= 2:
+                st.write("**최근 조기탐지 위험도 추세** (관리도 스타일 — 값이 갑자기 튀거나 패턴이 바뀌면 주의)")
+                trend_df = pd.DataFrame(st.session_state.sim_log[:30]).iloc[::-1]
+                chart_data = trend_df.set_index("cycle_order")[["조기탐지_확률"]].rename(
+                    columns={"조기탐지_확률": "조기탐지 위험도"}
+                )
+                st.line_chart(chart_data)
 
         with log_placeholder.container():
             st.write("**최근 판정 로그** (최신순 · 위험도가 색으로 표시됩니다 · 행을 클릭하면 실제 라벨 상세를 볼 수 있습니다)")
@@ -352,6 +459,58 @@ with tab0:
 
     render_current_state()
 
+    # ---- 세션 요약 리포트 다운로드 ----
+    if st.session_state.sim_log:
+        st.divider()
+        col_report1, col_report2 = st.columns([1, 3])
+        with col_report1:
+            stats = st.session_state.sim_stats
+            type_counts = pd.Series(
+                [e["의심유형"] for e in st.session_state.sim_log if e.get("의심유형", "-") != "-"]
+            ).value_counts()
+            report_lines = [
+                "조립라인 품질 이상탐지 - 세션 요약 리포트",
+                f"생성 시각: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+                "",
+                f"총 처리 사이클: {stats['total']}",
+                f"정상 탐지: {stats['correct']}",
+                f"치명적 놓침: {stats['critical_miss']}",
+                f"조기탐지 사각지대: {stats['blind_spot']}",
+                f"오탐(False Alarm): {stats['false_alarm']}",
+                f"센서 이상 의심: {stats['sensor_flag']}",
+                "",
+                "의심 유형 분포:",
+            ] + [f"  - {t}: {c}건" for t, c in type_counts.items()]
+            report_text = "\n".join(report_lines)
+            st.download_button("📄 세션 요약 리포트 다운로드", report_text, "세션요약리포트.txt", "text/plain")
+        with col_report2:
+            st.caption("현재까지 처리된 전체 로그를 CSV로도 받을 수 있습니다.")
+            full_log_df = pd.DataFrame(st.session_state.sim_log)
+            st.download_button(
+                "📊 전체 로그 CSV 다운로드",
+                full_log_df.to_csv(index=False).encode("utf-8-sig"),
+                "전체판정로그.csv",
+                "text/csv",
+            )
+
+    with st.expander("💾 저장된 판정 이력 불러오기 (디스크 저장분)"):
+        st.caption(
+            "각 판정은 서버 로컬 파일에도 계속 기록됩니다. 단, Streamlit Community Cloud 무료 배포는 "
+            "재배포 시 파일이 초기화되므로 완전한 영구 보관을 위해서는 별도 데이터베이스 연동이 필요합니다."
+        )
+        if st.button("불러오기"):
+            persisted = load_persisted_log()
+            if len(persisted) == 0:
+                st.info("아직 저장된 이력이 없습니다.")
+            else:
+                st.dataframe(persisted, use_container_width=True)
+                st.download_button(
+                    "저장 이력 CSV 다운로드",
+                    persisted.to_csv(index=False).encode("utf-8-sig"),
+                    "전체이력.csv",
+                    "text/csv",
+                )
+
     if st.session_state.sim_running and st.session_state.sim_index < len(play_df):
         row = play_df.iloc[st.session_state.sim_index]
         result = classify_cycle(row, pipeline, early_threshold, posthoc_threshold)
@@ -372,9 +531,15 @@ with tab0:
             "의심유형_저신뢰": result.get("suspected_type_low_confidence", False),
             "최종판정_확률": result.get("posthoc_proba", np.nan),
             "최종판정": result.get("posthoc_verdict", "N/A"),
+            "센서이상": result.get("sensor_anomalous", False),
+            "판정근거": result.get("reasons", []),
         }
         st.session_state.sim_log.insert(0, entry)
+        append_log_to_disk(entry)
+
         st.session_state.sim_stats["total"] += 1
+        if result.get("sensor_anomalous"):
+            st.session_state.sim_stats["sensor_flag"] += 1
         if risk_tier == "danger":
             st.session_state.sim_stats["critical_miss"] += 1
         elif risk_tier == "warning":
@@ -405,6 +570,9 @@ with tab1:
 
     result = classify_cycle(row, pipeline, early_threshold, posthoc_threshold)
 
+    if result.get("sensor_anomalous"):
+        st.error(f"🛠️ 센서 값 자체가 학습 범위를 크게 벗어났습니다 (이상 컬럼 {len(result['sensor_anomalous_features'])}개). 판정 신뢰 불가, 설비 점검을 먼저 확인하세요.")
+
     col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("실제 라벨 (참고용)", actual_label)
@@ -428,6 +596,11 @@ with tab1:
 
     if row["needs_image_review"] == 1:
         st.error("🖼️ 이 사이클은 이미지 데이터 확보 후 재검증이 필요한 것으로 표시되어 있습니다 (cycle 10).")
+
+    if result.get("reasons"):
+        with st.expander("🔍 판정 근거 보기 (정상군 평균 대비 편차가 큰 신호)"):
+            for reason in result["reasons"]:
+                st.write(f"- {reason}")
 
     risk_label, risk_tier = judge_risk_tier(
         actual_label, result["early_alert"], result.get("posthoc_verdict"), result.get("posthoc_available", False)
@@ -464,6 +637,7 @@ with tab2:
                     "조기탐지_경보": "이상 의심" if res["early_alert"] else "정상으로 보임",
                     "의심유형": res.get("suspected_type", "-"),
                     "최종판정_결과": res.get("posthoc_verdict", "N/A"),
+                    "센서이상의심": "예" if res.get("sensor_anomalous") else "아니오",
                 }
                 if has_actual_label:
                     actual = r["target_4class"]
@@ -482,6 +656,10 @@ with tab2:
                 else:
                     st.success("업로드한 데이터에서 '치명적 놓침'은 발견되지 않았습니다.")
 
+            n_sensor_issue = (result_df["센서이상의심"] == "예").sum()
+            if n_sensor_issue > 0:
+                st.warning(f"🛠️ {n_sensor_issue}건은 센서 값 자체가 학습 범위를 크게 벗어나, 판정 결과를 신뢰하기 어렵습니다.")
+
             st.dataframe(result_df, use_container_width=True)
             st.caption("⚠️ '의심유형'이 NoNose(부품 1개 누락)로 나온 경우, 조기탐지 신호로는 검증되지 않은 추정치이므로 최종판정을 반드시 확인하세요.")
             st.download_button(
@@ -495,6 +673,16 @@ with tab2:
 # 탭 3: 모델 성능 리포트 (고정된 검증 결과 표시)
 # ------------------------------------------------------------
 with tab3:
+    st.subheader("모델 정보")
+    info = pipeline["model_info"]
+    ic1, ic2, ic3, ic4 = st.columns(4)
+    ic1.metric("학습 시각", info["build_time"])
+    ic2.metric("학습 표본 수", f"{info['n_train_samples']}개")
+    ic3.metric("조기탐지 피처", f"{info['n_early_features']}개")
+    ic4.metric("최종판정 피처", f"{info['n_posthoc_features']}개")
+    st.caption(f"데이터 출처: {info['data_source']} (실험용 결함 주입 데이터)")
+
+    st.divider()
     st.subheader("검증된 모델 성능 (fold_primary 5-fold 교차검증 기준)")
 
     perf_data = pd.DataFrame({
