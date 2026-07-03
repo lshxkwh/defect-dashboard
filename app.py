@@ -302,13 +302,13 @@ with tab0:
                 st.info("▶ 시작 버튼을 눌러 시뮬레이션을 시작하세요.")
             else:
                 last = st.session_state.sim_log[0]
-                if last["위험도등급"] == "danger":
+                if last.get("위험도등급") == "danger":
                     st.error(f"🔴 사이클 {last['cycle_order']} — 치명적 놓침! 불량인데 정상으로 최종판정됨. 즉시 확인 필요")
-                elif last["최종판정"] == "불량":
+                elif last.get("최종판정") == "불량":
                     st.error(f"🚨 사이클 {last['cycle_order']} — 최종판정: 불량")
-                elif last["위험도등급"] == "warning":
+                elif last.get("위험도등급") == "warning":
                     st.warning(f"🟠 사이클 {last['cycle_order']} — 조기탐지는 놓쳤지만 최종판정에서 확인됨 (사각지대 발생)")
-                elif last["조기경보"] == "이상 의심":
+                elif last.get("조기경보") == "이상 의심":
                     msg = f"⚠️ 사이클 {last['cycle_order']} — 조기 경보 발생"
                     if last.get("의심유형") and last["의심유형"] != "-":
                         msg += f" · 의심 유형: **{last['의심유형']}**"
