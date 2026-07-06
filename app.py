@@ -16,6 +16,7 @@ import os
 from datetime import datetime
 from collections import defaultdict
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import recall_score, precision_score, f1_score, roc_auc_score
 import lightgbm as lgb
 
 st.set_page_config(page_title="조립라인 품질 이상탐지 대시보드", layout="wide")
@@ -55,14 +56,12 @@ def build_pipeline():
         manifest["group"].isin(["outcome_signal_R04", "outcome_signal_R03peak"]), "column"
     ].tolist()
 
-    # ---- 4단계: 추가 발견 누수 ----
-    r03_extra_leak = [
-        "I_R03_Gripper_Load__large_change_count",
-        "I_R03_Gripper_Load__diff_std",
-        "I_R03_Gripper_Load__diff_abs_sum",
-    ]
+    # ---- 4단계: 추가 발견 누수 (R03_Gripper_Load 채널 전체 — 개별 통계량이 아니라 채널 단위로 제외) ----
+    # peak_count 외 mean/std/diff_std/diff_abs_sum/large_change_count 등도 라벨과 강하게
+    # 연동된 것이 모델링 단계에서 확인되어, 개별 통계량이 아닌 채널 17개 전체를 제외 대상으로 확정함.
+    r03_leak_channel = [c for c in feature_cols if c.startswith("I_R03_Gripper_Load__")]
 
-    exclude_all = list(set(joint_cols + exclude_redundant + official_leak + r03_extra_leak))
+    exclude_all = list(set(joint_cols + exclude_redundant + official_leak + r03_leak_channel))
     safe_features = [c for c in feature_cols if c not in exclude_all]
 
     # ---- 5단계: 다중공선성 제거 ----
@@ -106,19 +105,55 @@ def build_pipeline():
 
     early_features = [c for c in safe_features if c not in drop_cols and c not in zero_var_early]
 
-    # ---- 사후검사 트랙 (관절각/완전중복만 제외, 다중공선성 별도 적용) ----
-    posthoc_exclude = list(set(joint_cols + exclude_redundant))
-    posthoc_candidates = [c for c in feature_cols if c not in posthoc_exclude]
-    clusters_p, zero_var_post = build_clusters(posthoc_candidates)
-    drop_cols_p = []
-    for cl in clusters_p:
-        rep = pick_representative(cl)
-        drop_cols_p.extend([c for c in cl if c != rep])
-    posthoc_features = [c for c in posthoc_candidates if c not in drop_cols_p and c not in zero_var_post]
+    # ---- 사후검사 트랙 (조기탐지와 동일한 누수 제외 기준 적용, 다중공선성 정리는 미적용) ----
+    # [버그 수정1] 기존에는 관절각/완전중복만 제외하고 official_leak, r03_leak_channel이
+    # 빠져 있어 peak_count 등이 그대로 남아 LightGBM이 recall/precision/auc 전부 1.000이
+    # 나오는 데이터 누수 문제가 있었음. 두 트랙은 "정보량"만 다를 뿐 "누수 제외 기준"은
+    # 반드시 동일해야 하므로, 조기탐지와 같은 exclude_all을 기준으로 통일함.
+    # [버그 수정2] 사후검사 트랙은 "정보 상한(ceiling)"을 보기 위한 트랙으로 설계되어,
+    # 다중공선성 정리를 의도적으로 적용하지 않는다 (실험 결과 정리해도 성능 개선 없었음).
+    # 조기탐지 트랙에만 다중공선성 정리를 적용해 실시간 연산 비용을 줄인다.
+    posthoc_exclude = list(set(joint_cols + exclude_redundant + official_leak + r03_leak_channel))
+    numeric_posthoc = df[[c for c in feature_cols if c not in posthoc_exclude]].select_dtypes(include=[np.number])
+    zero_var_post = numeric_posthoc.columns[numeric_posthoc.std() == 0].tolist()
+    posthoc_features = [c for c in feature_cols if c not in posthoc_exclude and c not in zero_var_post]
 
     # ---- fold_primary (참고용, 성능 리포트에 사용) ----
     fold_map = {1: 0, 6: 0, 2: 1, 7: 1, 3: 2, 8: 2, 4: 3, 9: 3, 5: 4, 10: 4}
     df["fold_primary"] = df["time_block_id"].map(fold_map)
+
+    # ---- fold_primary 5-fold 교차검증으로 실제 성능 계산 (하드코딩 금지 — leak 수정 후 재검증 필요) ----
+    def run_cv(features, model_ctor):
+        rows = []
+        for f in sorted(df["fold_primary"].dropna().unique()):
+            tr = df["fold_primary"] != f
+            te = df["fold_primary"] == f
+            m = model_ctor()
+            m.fit(df.loc[tr, features], y[tr])
+            proba = m.predict_proba(df.loc[te, features])[:, 1]
+            pred = (proba >= 0.5).astype(int)
+            rows.append({
+                "fold": int(f),
+                "recall": recall_score(y[te], pred),
+                "precision": precision_score(y[te], pred),
+                "f1": f1_score(y[te], pred),
+                "auc": roc_auc_score(y[te], proba),
+            })
+        return pd.DataFrame(rows)
+
+    cv_early = run_cv(early_features, lambda: RandomForestClassifier(
+        n_estimators=300, max_depth=6, random_state=42, class_weight="balanced"))
+    cv_posthoc = run_cv(posthoc_features, lambda: lgb.LGBMClassifier(
+        n_estimators=200, max_depth=4, learning_rate=0.05, random_state=42, verbose=-1))
+
+    cv_summary = pd.DataFrame({
+        "모델": ["조기탐지 (RandomForest)", "최종판정 (LightGBM)"],
+        "사용 피처 수": [len(early_features), len(posthoc_features)],
+        "평균 Recall": [cv_early["recall"].mean(), cv_posthoc["recall"].mean()],
+        "평균 Precision": [cv_early["precision"].mean(), cv_posthoc["precision"].mean()],
+        "평균 F1": [cv_early["f1"].mean(), cv_posthoc["f1"].mean()],
+        "평균 AUC": [cv_early["auc"].mean(), cv_posthoc["auc"].mean()],
+    }).round(3)
 
     # ---- 예외 사이클 플래그 (cycle 10: 이미지 확인 전까지 재검증 필요) ----
     df["needs_image_review"] = (df["cycle_order"] == 10).astype(int)
@@ -174,6 +209,9 @@ def build_pipeline():
         "normal_stats": normal_stats,
         "sensor_range": sensor_range,
         "model_info": model_info,
+        "cv_early": cv_early,
+        "cv_posthoc": cv_posthoc,
+        "cv_summary": cv_summary,
     }
 
 
@@ -290,7 +328,7 @@ with st.expander("⚠️ 사용 전 반드시 읽어주세요 (모델 한계 안
 - 이 모델은 **의도적으로 부품을 제거한 실험 데이터**로 학습되었습니다. 실제 현장의 자연 발생 불량에 대한 성능은 별도 검증이 필요합니다.
 - **조기탐지 결과는 "확정 판정"이 아니라 "경보"**입니다. 최종 출하 여부는 반드시 사후검사(최종판정) 결과를 따라야 합니다.
 - 조기탐지 모델은 **"부품 1개만 누락된 유형"을 구조적으로 탐지하지 못하는 것으로 확인**되었습니다 (관련 신호 부재, 여러 보완 방법 시도 후에도 해결 불가 확인됨). 이 유형은 사후검사 단계에서만 확정 가능합니다.
-- 최종판정 모델의 높은 정확도는 특정 단일 변수(그립 동작 횟수)에 크게 의존합니다. 해당 변수 계산 로직에 오류가 있을 경우 함께 영향을 받을 수 있습니다.
+- 최종판정 모델은 R03_Gripper_Load 채널(검사자가 사후에 수기로 기록한 값으로 확인되어 데이터 누수 판정, 제외 처리됨)을 뺀 나머지 센서 신호로 학습되었습니다.
 """
     )
 
@@ -686,20 +724,22 @@ with tab3:
 
     st.divider()
     st.subheader("검증된 모델 성능 (fold_primary 5-fold 교차검증 기준)")
+    st.caption("아래 수치는 매번 이 데이터로 실제 재계산됩니다 (하드코딩 아님).")
 
-    perf_data = pd.DataFrame({
-        "모델": ["조기탐지 (RandomForest)", "최종판정 (LightGBM)"],
-        "사용 피처 수": [len(pipeline["early_features"]), len(pipeline["posthoc_features"])],
-        "평균 Recall": [0.919, 1.000],
-        "평균 Precision": [0.986, 1.000],
-        "비고": ["부품 1개 누락 유형 탐지 불가 (구조적 한계)", "전체 유형 완벽 탐지"],
-    })
-    st.dataframe(perf_data, use_container_width=True)
+    st.dataframe(pipeline["cv_summary"], use_container_width=True)
 
-    st.markdown("""
-**한계 요약**
-- 조기탐지: 특정 시간 구간(fold 4)에서 recall 0.556까지 하락 확인 — 원인은 특정 유형(NoNose)의 훈련/시험 세션 간 신호 차이
-- 보완 시도(이상탐지 감시, 확신도 필터링, class_weight, 전체 396개 신호 재탐색) 4종 모두 실패 확인 → 이미지 데이터 도입이 다음 단계로 필요
+    st.markdown("**fold별 상세 (조기탐지 · RandomForest)**")
+    st.dataframe(pipeline["cv_early"], use_container_width=True)
+    weakest_early = pipeline["cv_early"].loc[pipeline["cv_early"]["recall"].idxmin()]
+
+    st.markdown("**fold별 상세 (최종판정 · LightGBM)**")
+    st.dataframe(pipeline["cv_posthoc"], use_container_width=True)
+
+    st.markdown(f"""
+**참고**
+- 조기탐지 모델은 fold {int(weakest_early['fold'])}에서 recall {weakest_early['recall']:.3f}로 가장 낮게 나옵니다 — 특정 시간 구간에서 신호가 약해지는 경향이 있는지 참고하세요.
+- 조기탐지 모델은 구조적으로 "부품 1개만 누락된 유형(NoNose)"을 구분하기 어려운 것으로 확인되었습니다. 이 유형은 사후검사(최종판정) 단계에서만 확정 가능합니다.
+- 최종판정 모델의 성능은 R03_Gripper_Load 채널(검사자 사후 기록, 누수로 확인되어 제외됨)을 뺀 나머지 신호만으로 계산된 것입니다.
 """)
 
 st.divider()
